@@ -20,3 +20,12 @@
   <% end %>
   </ul>
 <% end %>
+
+<h1>Ingredients</h1>
+<% if @ingredients %>
+  <ul>
+  <% @ingredients.each do | ingredient |  %>
+    <li><a href="/ingredients/<%= ingredient.id %>"><%= ingredient.name %></a></li>
+  <% end %>
+  </ul>
+<% end %>

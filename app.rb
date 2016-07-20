@@ -5,13 +5,14 @@ Bundler.require(:default)
 Dir[File.dirname(__FILE__) + '/lib/*.rb'].each {|file| require file}
 
 get '/' do
-  @recipes = Recipe.all
+  @recipes = Recipe.order(rating: :desc)
   @tags = Tag.all
+  @ingredients = Ingredient.all
   erb(:index)
 end
 
 post '/recipes/new' do
-  new_recipe = Recipe.new({:name => params[:recipe_name]})
+  new_recipe = Recipe.new({:name => params[:recipe_name], :rating => 0})
   if new_recipe.save
     redirect to "/recipes/#{new_recipe.id}"
   else
@@ -26,7 +27,9 @@ end
 
 patch '/recipes/:id' do
   recipe = Recipe.find(params[:id])
-  recipe.update({:instruction => params[:instructions], :rating => params[:rating]})
+  instructions = params[:instructions] == nil ? recipe.instruction : params[:instructions]
+  rating = params[:rating] == nil ? recipe.rating : params[:rating]
+  recipe.update({:instruction => instructions, :rating => rating})
   redirect back
   # redirect to "/recipes/#{params[:id]}/edit"
 end
@@ -83,4 +86,9 @@ post '/recipes/:id/ingredient/new' do
   foodstuff = Foodstuff.where({:ingredient_id => ingredient.id, :recipe_id => recipe.id})
   foodstuff.update(:measurement => params[:measurement])
   redirect back
+end
+
+get '/ingredients/:id' do
+  @ingredient = Ingredient.find(params[:id])
+  erb(:ingredient)
 end
