@@ -1,0 +1,50 @@
+<h1><%= @recipe.name %></h1>
+<% if @recipe.instruction %>
+  <p><%= @recipe.instruction %></p>
+<% end %>
+
+<% if @recipe.ingredients %>
+  <ul>
+    <% @recipe.ingredients.each do | ingredient | %>
+    <li><a href="/ingredients/<%= ingredient.id %>"><%= ingredient.foodstuff.measurement %> <%= ingredient.name %></a>
+        <form action="/recipes/<%= @recipe.id %>/ingredient/" method="post">
+          <input type="hidden" name="_method" value="delete">
+          <button type="submit" name="button">Delete</button>
+        </form>
+    </li>
+    <% end %>
+  </ul>
+<% end %>
+<h3>Add an ingredient</h3>
+<form action="/recipes/<%= @recipe.id %>/ingredient/new" method="post">
+  <label for="ingredient_name">Name</label>
+  <input type="text" name="ingredient_name">
+  <label for="measurement">Measurement</label>
+  <input type="text" name="measurement">
+  <button type="submit" name="button">Submit</button>
+</form>
+
+<h3>Add instructions</h3>
+<form action="/recipes/<%= @recipe.id %>" method="post">
+  <input type="hidden" name="_method" value="patch">
+  <label for="instructions">Instructions:</label>
+  <textarea name="instructions"> </textarea>
+  <button type="submit" name="button">Submit</button>
+</form>
+
+<h3>Add categories</h3>
+<form action="/recipes/<%= @recipe.id %>/categories/new" method="post">
+  <input type="hidden" name="_method" value="patch">
+  <label for="categories">Categories:</label>
+  <select name="tag">
+    <option value=""></option>
+    <% if @categories %>
+    <% @categories.each do |category| %>
+    <option value="<%= category.id %>"> category.name </option>
+    <% end %>
+    <% end %>
+  </select>
+  <button type="submit" name="button">Submit</button>
+</form>
+
+<a href="/recipes/<%= @recipe.id %>/categories/new"> Add new category </a>

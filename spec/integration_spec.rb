@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe 'index path', {:type => :feature}  do
+  
   it('will show recipe list and categories') do
     visit '/'
     expect(page).to have_content 'Add a recipe'
@@ -12,6 +13,13 @@ describe 'index path', {:type => :feature}  do
     click_button 'Submit'
     visit '/'
     expect(page).to have_content 'Test Recipe'
+  end
+
+  it 'will show you the recipe details' do
+    visit '/'
+    fill_in 'recipe_name', :with => 'Test Recipe'
+    click_button 'Submit'
+    expect(page).to have_content "Test Recipe"
   end
 
   it 'will show a newly added category' do
