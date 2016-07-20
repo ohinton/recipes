@@ -6,3 +6,8 @@
     <% end %>
   </ul>
 <% end %>
+
+<form action="/tags/<%= @tag.id() %>" method="post">
+  <input type="hidden" name="_method" value="delete">
+  <button type="submit">Delete</button>
+</form>

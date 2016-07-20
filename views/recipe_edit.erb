@@ -11,11 +11,11 @@
   <% end %>
   <% end %>
 </ul>
-
+<h1>Ingredients</h1>
 <% if @recipe.ingredients %>
   <ul>
     <% @recipe.ingredients.each do | ingredient | %>
-    <li><a href="/ingredients/<%= ingredient.id %>"><%= ingredient.foodstuff.measurement %> <%= ingredient.name %></a>
+    <li><a href="/ingredients/<%= ingredient.id %>"><%= ingredient.foodstuffs.first.measurement %> <%= ingredient.name %></a>
         <form action="/recipes/<%= @recipe.id %>/ingredient/" method="post">
           <input type="hidden" name="_method" value="delete">
           <button type="submit" name="button">Delete</button>
@@ -30,7 +30,7 @@
   <input type="text" name="ingredient_name">
   <label for="measurement">Measurement</label>
   <input type="text" name="measurement">
-  <button type="submit" name="button">Submit</button>
+  <button type="submit" name="button" id="ingred_submit">Submit</button>
 </form>
 
 <h3>Add instructions</h3>

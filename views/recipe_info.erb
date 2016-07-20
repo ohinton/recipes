@@ -29,6 +29,11 @@
   <p> There are no recipe instructions saved yet! </p>
 <% end %>
 
-<a href="/recipes/<%= @recipe.id %>/edit">Edit</a>
-<br>
+<p><a role="button" href="/recipes/<%= @recipe.id %>/edit">Edit</a></p>
+
+<form action="/recipes/<%= @recipe.id() %>" method="post">
+  <input type="hidden" name="_method" value="delete">
+  <button type="submit">Delete</button>
+</form>
+
 <a href="/">Home</a>

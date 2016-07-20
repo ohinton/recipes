@@ -27,4 +27,15 @@ describe 'index path', {:type => :feature}  do
     fill_in 'recipe_name', :with => 'Test Recipe'
     click_button 'Submit'
   end
+
+  it('will add an ingredient to a recipe') do
+    visit '/'
+    fill_in 'recipe_name', :with => 'Test Recipe'
+    click_button 'Submit'
+    click_link 'Edit'
+    fill_in 'ingredient_name', :with => 'Oranges'
+    fill_in 'measurement', :with => '3'
+    click_button 'ingred_submit'
+  end
+
 end

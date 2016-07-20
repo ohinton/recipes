@@ -53,7 +53,7 @@ end
 
 patch '/recipes/:id/categories/' do
   recipe = Recipe.find(params[:id]) || nil
-  new_tag = Tag.find(params[:tag]) unless params[:tag] == nil
+  new_tag = Tag.find(params[:tag]) unless params[:tag] == ""
 
   if new_tag
     recipe.tags.push(new_tag)
@@ -64,4 +64,23 @@ end
 get '/tags/:id' do
   @tag = Tag.find(params[:id])
   erb(:tags)
+end
+
+delete '/tags/:id' do
+  Tag.destroy(params[:id])
+  redirect '/'
+end
+
+delete '/recipes/:id' do
+  Recipe.destroy(params[:id])
+  redirect '/'
+end
+
+post '/recipes/:id/ingredient/new' do
+  recipe = Recipe.find(params[:id])
+  ingredient = Ingredient.new({:name => params[:ingredient_name]})
+  recipe.ingredients.push(ingredient)
+  foodstuff = Foodstuff.where({:ingredient_id => ingredient.id, :recipe_id => recipe.id})
+  foodstuff.update(:measurement => params[:measurement])
+  redirect back
 end
