@@ -1,0 +1,22 @@
+<h1>Recipes</h1>
+<form class="form-group" action="/recipes/new" method="post">
+<label for="recipe_name">Add a recipe:</label>
+<input type="text" name="recipe_name">
+<button type="submit" name="button">Submit</button>
+</form>
+<% if @recipes %>
+  <ul>
+  <% @recipes.each do | recipe |  %>
+    <li><a href="/recipes/<%= recipe.id %>"><%= recipe.name %></a></li>
+  <% end %>
+  </ul>
+<% end %>
+
+<h1>Categories</h1>
+<% if @tags %>
+  <ul>
+  <% @tags.each do | tag |  %>
+    <li><a href="/tags/<%= tag.id %>"><%= tag.name %></a></li>
+  <% end %>
+  </ul>
+<% end %>

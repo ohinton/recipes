@@ -119,7 +119,6 @@ PLATFORMS
 
 DEPENDENCIES
   capybara
-  guard
   guard-rspec
   pg
   pry
