@@ -1,5 +1,34 @@
 <h1><%= @recipe.name %></h1>
+
+<h2>Tags for this recipe:</h2>
+<ul>
+  <% if @recipe.tags() %>
+  <% @recipe.tags.each do | tag | %>
+  <li><a href="/tags/<%= tag.id %>"><%= tag.name %></a></li>
+  <% end %>
+  <% end %>
+</ul>
+
+<h2>Saved recipe rating: <%= @recipe.rating %> </h2>
+
+<h2>Rate this recipe:</h2>
+<form action="/recipes/<%= @recipe.id %>" method="post">
+  <input type="hidden" name="_method" value="patch">
+  <input type="radio" name="rating" value="1"> 1
+  <input type="radio" name="rating" value="2"> 2
+  <input type="radio" name="rating" value="3"> 3
+  <input type="radio" name="rating" value="4"> 4
+  <button type="submit" name="button">Submit</button>
+</form>
+
+
 <% if @recipe.instruction %>
   <p><%= @recipe.instruction %></p>
+
+<% else %>
+  <p> There are no recipe instructions saved yet! </p>
 <% end %>
+
 <a href="/recipes/<%= @recipe.id %>/edit">Edit</a>
+<br>
+<a href="/">Home</a>

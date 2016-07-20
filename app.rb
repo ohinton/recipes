@@ -26,13 +26,14 @@ end
 
 patch '/recipes/:id' do
   recipe = Recipe.find(params[:id])
-  recipe.update({:instruction => params[:instructions]})
-  redirect to "/recipes/#{params[:id]}/edit"
+  recipe.update({:instruction => params[:instructions], :rating => params[:rating]})
+  redirect back
+  # redirect to "/recipes/#{params[:id]}/edit"
 end
 
 get '/recipes/:id/edit' do
   @recipe = Recipe.find(params[:id])
-  @categories = Tag.all
+  @tags = Tag.all
   erb(:recipe_edit)
 end
 
@@ -43,6 +44,24 @@ end
 
 post '/recipes/:id/categories/new' do
   recipe = Recipe.find(params[:id])
-  recipe.tags.create({:name => params[:name]})
-  redirect to '/recipes/:id/edit'.
+  recipe.tags.new({:name => params[:name]})
+
+  if recipe.save
+    redirect to "/recipes/#{params[:id]}/edit"
+  end
+end
+
+patch '/recipes/:id/categories/' do
+  recipe = Recipe.find(params[:id]) || nil
+  new_tag = Tag.find(params[:tag]) unless params[:tag] == nil
+
+  if new_tag
+    recipe.tags.push(new_tag)
+  end
+  redirect to "/recipes/#{params[:id]}/edit"
+end
+
+get '/tags/:id' do
+  @tag = Tag.find(params[:id])
+  erb(:tags)
 end

@@ -3,6 +3,15 @@
   <p><%= @recipe.instruction %></p>
 <% end %>
 
+<h1>Categories:</h1>
+<ul>
+  <% if @recipe.tags() %>
+  <% @recipe.tags.each do | tag | %>
+  <li><a href="/tags/<%= tag.id %>"><%= tag.name %></a></li>
+  <% end %>
+  <% end %>
+</ul>
+
 <% if @recipe.ingredients %>
   <ul>
     <% @recipe.ingredients.each do | ingredient | %>
@@ -33,14 +42,14 @@
 </form>
 
 <h3>Add categories</h3>
-<form action="/recipes/<%= @recipe.id %>/categories/new" method="post">
+<form action="/recipes/<%= @recipe.id %>/categories/" method="post">
   <input type="hidden" name="_method" value="patch">
   <label for="categories">Categories:</label>
   <select name="tag">
     <option value=""></option>
-    <% if @categories %>
-    <% @categories.each do |category| %>
-    <option value="<%= category.id %>"> category.name </option>
+    <% if @tags %>
+    <% @tags.each do | tag | %>
+    <option value="<%= tag.id %>"> <%= tag.name %> </option>
     <% end %>
     <% end %>
   </select>
