@@ -1,6 +1,29 @@
 <h1><%= @recipe.name %></h1>
 
-<h2>Tags for this recipe:</h2>
+<h2>Ingredients</h2>
+<p><a role="button" href="/recipes/<%= @recipe.id %>/edit">Add ingredients</a></p>
+<% if @recipe.ingredients %>
+  <ul>
+    <% @recipe.ingredients.each do | ingredient | %>
+    <li><a href="/ingredients/<%= ingredient.id %>"><%= ingredient.foodstuffs.first.measurement %> <%= ingredient.name %></a>
+        <form action="/recipes/<%= @recipe.id %>/ingredient" method="post">
+          <input type="hidden" name="_method" value="delete">
+          <input type="hidden" name="ingredient" value="<%= ingredient.id %>">
+          <button type="submit" name="button">Delete</button>
+        </form>
+    </li>
+    <% end %>
+  </ul>
+<% end %>
+
+<h2>Instructions</h2>
+<% if @recipe.instruction %>
+  <p><%= @recipe.instruction %></p>
+<% else %>
+  <p> There are no recipe instructions saved yet! <p><a role="button" href="/recipes/<%= @recipe.id %>/edit">Add instructions</a></p> </p>
+<% end %>
+
+<h2>Tags</h2>
 <ul>
   <% if @recipe.tags() %>
   <% @recipe.tags.each do | tag | %>
@@ -11,29 +34,7 @@
 
 <h2>Saved recipe rating: <%= @recipe.rating %> </h2>
 
-<h2>Rate this recipe:</h2>
-<form action="/recipes/<%= @recipe.id %>" method="post">
-  <input type="hidden" name="_method" value="patch">
-  <input type="radio" name="rating" value="1"> 1
-  <input type="radio" name="rating" value="2"> 2
-  <input type="radio" name="rating" value="3"> 3
-  <input type="radio" name="rating" value="4"> 4
-  <button type="submit" name="button">Submit</button>
-</form>
-
-
-<% if @recipe.instruction %>
-  <p><%= @recipe.instruction %></p>
-
-<% else %>
-  <p> There are no recipe instructions saved yet! </p>
-<% end %>
-
-<p><a role="button" href="/recipes/<%= @recipe.id %>/edit">Edit</a></p>
-
 <form action="/recipes/<%= @recipe.id() %>" method="post">
   <input type="hidden" name="_method" value="delete">
-  <button type="submit">Delete</button>
+  <button class="btn btn-danger" type="submit">Delete Recipe</button>
 </form>
-
-<a href="/">Home</a>

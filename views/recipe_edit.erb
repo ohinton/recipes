@@ -3,23 +3,16 @@
   <p><%= @recipe.instruction %></p>
 <% end %>
 
-<h1>Categories:</h1>
-<ul>
-  <% if @recipe.tags() %>
-  <% @recipe.tags.each do | tag | %>
-  <li><a href="/tags/<%= tag.id %>"><%= tag.name %></a></li>
-  <% end %>
-  <% end %>
-</ul>
-<h1>Ingredients</h1>
+<h2>Ingredients</h2>
 <% if @recipe.ingredients %>
   <ul>
     <% @recipe.ingredients.each do | ingredient | %>
-    <li><a href="/ingredients/<%= ingredient.id %>"><%= ingredient.foodstuffs.first.measurement %> <%= ingredient.name %></a>
+    <li>
         <form action="/recipes/<%= @recipe.id %>/ingredient" method="post">
           <input type="hidden" name="_method" value="delete">
           <input type="hidden" name="ingredient" value="<%= ingredient.id %>">
-          <button type="submit" name="button">Delete</button>
+          <button class="btn-xs btn-danger" type="submit" name="button">Delete</button>
+          <a href="/ingredients/<%= ingredient.id %>"><%= ingredient.foodstuffs.first.measurement %> <%= ingredient.name %></a>
         </form>
     </li>
     <% end %>
@@ -28,44 +21,67 @@
 
 <h3>Add a new ingredient</h3>
 <form action="/recipes/<%= @recipe.id %>/ingredient/new" method="post">
-  <label for="ingredient">Ingredient</label>
-  <select name="ingredient">
-    <option value=""></option>
-    <% if @ingredients %>
-    <% @ingredients.each do | ingredient | %>
-    <option value="<%= ingredient.id %>"> <%= ingredient.name %> </option>
-    <% end %>
-    <% end %>
-  </select>
-  <label for="measurement">Measurement</label>
-  <input type="text" name="measurement">
-  <button type="submit" name="button" id="ingred_submit">Submit</button>
+  <div class="form-group">
+    <label for="ingredient">Ingredient</label>
+    <select class="form-control" name="ingredient">
+      <option value=""></option>
+      <% if @ingredients %>
+      <% @ingredients.each do | ingredient | %>
+      <option value="<%= ingredient.id %>"> <%= ingredient.name %> </option>
+      <% end %>
+      <% end %>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="measurement">Measurement</label>
+    <input class="form-control" type="text" name="measurement">
+  </div>
+  <button class="btn btn-success" type="submit" name="button" id="ingred_submit">Submit</button>
+  <a class="btn btn-primary" href="/recipes/<%= @recipe.id %>/ingredient/add">Add a new ingredient</a>
 </form>
-<a href="/recipes/<%= @recipe.id %>/ingredient/add">Add a new ingredient</a>
 
 <h3>Add instructions</h3>
 <form action="/recipes/<%= @recipe.id %>" method="post">
   <input type="hidden" name="_method" value="patch">
-  <label for="instructions">Instructions:</label>
-  <textarea name="instructions"> </textarea>
-  <button type="submit" name="button">Submit</button>
+  <div class="form-group">
+    <label for="instructions">Instructions:</label>
+    <textarea class="form-control" name="instructions"> </textarea>
+  </div>
+  <button class="btn btn-success" type="submit" name="button">Submit</button>
 </form>
 
-<h3>Add categories</h3>
+<h1>Tags</h1>
+<ul>
+  <% if @recipe.tags() %>
+  <% @recipe.tags.each do | tag | %>
+  <li><a href="/tags/<%= tag.id %>"><%= tag.name %></a></li>
+  <% end %>
+  <% end %>
+</ul>
+
+<h3>Add tags</h3>
 <form action="/recipes/<%= @recipe.id %>/categories/" method="post">
   <input type="hidden" name="_method" value="patch">
-  <label for="categories">Categories:</label>
-  <select name="tag">
-    <option value=""></option>
-    <% if @tags %>
-    <% @tags.each do | tag | %>
-    <option value="<%= tag.id %>"> <%= tag.name %> </option>
-    <% end %>
-    <% end %>
-  </select>
-  <button type="submit" name="button">Submit</button>
+  <div class="form-group">
+    <select class="form-control" name="tag">
+      <option value=""></option>
+      <% if @tags %>
+      <% @tags.each do | tag | %>
+      <option value="<%= tag.id %>"> <%= tag.name %> </option>
+      <% end %>
+      <% end %>
+    </select>
+  </div>
+  <button class="btn btn-success" type="submit" name="button">Submit</button>
+  <a class="btn btn-primary" href="/recipes/<%= @recipe.id %>/categories/new"> Add new tag </a>
 </form>
 
-<a href="/recipes/<%= @recipe.id %>/categories/new"> Add new category </a>
-<br>
-<a href="/"> Home </a>
+<h2>Rate this recipe</h2>
+<form action="/recipes/<%= @recipe.id %>" method="post">
+  <input type="hidden" name="_method" value="patch">
+  <input type="radio" name="rating" value="1"> 1
+  <input type="radio" name="rating" value="2"> 2
+  <input type="radio" name="rating" value="3"> 3
+  <input type="radio" name="rating" value="4"> 4
+  <button class="btn btn-success" type="submit" name="button">Submit</button>
+</form>
