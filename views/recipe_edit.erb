@@ -16,22 +16,32 @@
   <ul>
     <% @recipe.ingredients.each do | ingredient | %>
     <li><a href="/ingredients/<%= ingredient.id %>"><%= ingredient.foodstuffs.first.measurement %> <%= ingredient.name %></a>
-        <form action="/recipes/<%= @recipe.id %>/ingredient/" method="post">
+        <form action="/recipes/<%= @recipe.id %>/ingredient" method="post">
           <input type="hidden" name="_method" value="delete">
+          <input type="hidden" name="ingredient" value="<%= ingredient.id %>">
           <button type="submit" name="button">Delete</button>
         </form>
     </li>
     <% end %>
   </ul>
 <% end %>
-<h3>Add an ingredient</h3>
+
+<h3>Add a new ingredient</h3>
 <form action="/recipes/<%= @recipe.id %>/ingredient/new" method="post">
-  <label for="ingredient_name">Name</label>
-  <input type="text" name="ingredient_name">
+  <label for="ingredient">Ingredient</label>
+  <select name="ingredient">
+    <option value=""></option>
+    <% if @ingredients %>
+    <% @ingredients.each do | ingredient | %>
+    <option value="<%= ingredient.id %>"> <%= ingredient.name %> </option>
+    <% end %>
+    <% end %>
+  </select>
   <label for="measurement">Measurement</label>
   <input type="text" name="measurement">
   <button type="submit" name="button" id="ingred_submit">Submit</button>
 </form>
+<a href="/recipes/<%= @recipe.id %>/ingredient/add">Add a new ingredient</a>
 
 <h3>Add instructions</h3>
 <form action="/recipes/<%= @recipe.id %>" method="post">
@@ -57,3 +67,5 @@
 </form>
 
 <a href="/recipes/<%= @recipe.id %>/categories/new"> Add new category </a>
+<br>
+<a href="/"> Home </a>

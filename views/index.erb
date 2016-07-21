@@ -1,9 +1,11 @@
-<h1>Recipes</h1>
+<h1>My Recipe Box!</h1>
 <form class="form-group" action="/recipes/new" method="post">
 <label for="recipe_name">Add a recipe:</label>
 <input type="text" name="recipe_name">
 <button type="submit" name="button">Submit</button>
 </form>
+
+<h1>All Saved Recipes</h1>
 <% if @recipes %>
   <ul>
   <% @recipes.each do | recipe |  %>
@@ -12,7 +14,7 @@
   </ul>
 <% end %>
 
-<h1>Categories</h1>
+<h1>All Categories</h1>
 <% if @tags %>
   <ul>
   <% @tags.each do | tag |  %>
@@ -21,7 +23,7 @@
   </ul>
 <% end %>
 
-<h1>Ingredients</h1>
+<h1>All Ingredients</h1>
 <% if @ingredients %>
   <ul>
   <% @ingredients.each do | ingredient |  %>
